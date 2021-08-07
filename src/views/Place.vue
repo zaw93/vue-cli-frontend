@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import PlaceCardHorizontal from '../components/PlaceCardHorizontal.vue'
-import AdvanceSearch from '../components/AdvanceSearch.vue'
+import PlaceCardHorizontal from '../components/UI/PlaceCardHorizontal.vue'
+import AdvanceSearch from '../components/UI/AdvanceSearch.vue'
 
 export default {
   name: 'Place',

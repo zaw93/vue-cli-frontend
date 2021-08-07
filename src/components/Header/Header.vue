@@ -42,7 +42,7 @@
 export default {}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #navigation {
   .navbar-light .navbar-nav .nav-link {
     color: #000 !important;

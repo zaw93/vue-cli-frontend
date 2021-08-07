@@ -181,77 +181,8 @@
             </div>
           </div>
         </div>
-        <div class="book-card col-md-5 align-self-center px-5">
-          <b-card class="shadow-sm">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-              <div><span class="fs-5">$45</span> <span class="fw-light">/ night</span></div>
-              <div class="rating my-2 d-flex align-items-center fw-light">
-                <svg width="15" height="15" fill="#e15a5f" viewBox="0 0 1000 1000">
-                  <path
-                    d="M972 380c9 28 2 50-20 67L725 619l87 280c11 39-18 75-54 75-12 0-23-4-33-12L499 790 273 962a58 58 0 0 1-78-12 50 50 0 0 1-8-51l86-278L46 447c-21-17-28-39-19-67 8-24 29-40 52-40h280l87-279c7-23 28-39 52-39 25 0 47 17 54 41l87 277h280c24 0 45 16 53 40z"
-                  ></path>
-                </svg>
-                <span class="ms-1">5.0</span>
-                <span class="ms-1">(3 reviews)</span>
-              </div>
-            </div>
 
-            <div class="date-picker d-flex">
-              <b-card class="flex-fill">
-                <b-form-group label="CHECK-IN" label-for="check-in" label-align="center">
-                  <b-form-datepicker
-                    id="check-in"
-                    v-model="checkin"
-                    :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                    locale="en"
-                    placeholder="Pick a date"
-                  ></b-form-datepicker>
-                </b-form-group>
-              </b-card>
-              <b-card class="flex-fill">
-                <b-form-group label="CHECK-OUT" label-for="check-out" label-align="center">
-                  <b-form-datepicker
-                    id="check-out"
-                    v-model="checkout"
-                    :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                    locale="en"
-                    placeholder="Pick a date"
-                  ></b-form-datepicker>
-                </b-form-group>
-              </b-card>
-            </div>
-
-            <div class="guest-count mb-3">
-              <b-card>
-                <div class="d-flex">
-                  <label for="guest-count" class="me-5">GUESTS</label>
-                  <b-form-spinbutton id="guest-count" v-model="guest" min="1" max="5" inline></b-form-spinbutton>
-                </div>
-              </b-card>
-            </div>
-
-            <button class="btn btn-reserve w-100 btn-lg">Reserve</button>
-
-            <div class="mt-3">
-              <div class="d-flex justify-content-between mb-2 fw-light">
-                <div>$45 x 5 nights</div>
-                <div>$225</div>
-              </div>
-              <div class="d-flex justify-content-between mb-2 fw-light">
-                <div>Cleaning fee</div>
-                <div>$20</div>
-              </div>
-              <div class="d-flex justify-content-between mb-3 fw-light">
-                <div>Service fee</div>
-                <div>$30</div>
-              </div>
-              <div class="d-flex justify-content-between pt-3 mb-3 fw-bold border-top">
-                <div>Total</div>
-                <div>$275</div>
-              </div>
-            </div>
-          </b-card>
-        </div>
+        <BookCard />
       </div>
 
       <div class="reviews border-top">
@@ -265,60 +196,18 @@
           <span class="ms-2 fw-bold">.</span>
           <span class="ms-2 fs-5">(3 reviews)</span>
         </div>
+
         <div class="row">
           <div class="col-md-6 col-sm-12 mt-4">
-            <div class="review-profile">
-              <div class="d-flex align-items-center">
-                <img src="https://ui-avatars.com/api/?name=John+Doe" class="rounded-circle" alt="" />
-                <div class="ms-3">
-                  <div class="fw-bold fs-6">John Doe</div>
-                  <div class="fw-light">July 2021</div>
-                </div>
-              </div>
-            </div>
-            <div class="review-text pe-4">
-              <p class="fw-light mt-3">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore, ratione delectus debitis quae
-                assumenda, quasi iusto, magnam cupiditate nihil totam consequatur? Eaque, voluptatum doloribus magni
-                cumque nisi excepturi vitae optio.
-              </p>
-            </div>
+            <ReviewCard />
           </div>
+
           <div class="col-md-6 col-sm-12 mt-4">
-            <div class="review-profile">
-              <div class="d-flex align-items-center">
-                <img src="https://ui-avatars.com/api/?name=John+Doe" class="rounded-circle" alt="" />
-                <div class="ms-3">
-                  <div class="fw-bold fs-6">John Doe</div>
-                  <div class="fw-light">July 2021</div>
-                </div>
-              </div>
-            </div>
-            <div class="review-text pe-4">
-              <p class="fw-light mt-3">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore, ratione delectus debitis quae
-                assumenda, quasi iusto, magnam cupiditate nihil totam consequatur? Eaque, voluptatum doloribus magni
-                cumque nisi excepturi vitae optio.
-              </p>
-            </div>
+            <ReviewCard />
           </div>
+
           <div class="col-md-6 col-sm-12 mt-4">
-            <div class="review-profile">
-              <div class="d-flex align-items-center">
-                <img src="https://ui-avatars.com/api/?name=John+Doe" class="rounded-circle" alt="" />
-                <div class="ms-3">
-                  <div class="fw-bold fs-6">John Doe</div>
-                  <div class="fw-light">July 2021</div>
-                </div>
-              </div>
-            </div>
-            <div class="review-text pe-4">
-              <p class="fw-light mt-3">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore, ratione delectus debitis quae
-                assumenda, quasi iusto, magnam cupiditate nihil totam consequatur? Eaque, voluptatum doloribus magni
-                cumque nisi excepturi vitae optio.
-              </p>
-            </div>
+            <ReviewCard />
           </div>
         </div>
       </div>
@@ -327,8 +216,12 @@
 </template>
 
 <script>
+import BookCard from '../components/Detail/BookCard.vue'
+import ReviewCard from '../components/Detail/ReviewCard.vue'
+
 export default {
   name: 'RoomDetail',
+  components: { BookCard, ReviewCard },
   data() {
     return {
       checkin: '',
@@ -365,53 +258,6 @@ export default {
   p {
     line-height: 1.6;
     font-weight: 300;
-  }
-}
-
-.date-picker {
-  .form-control {
-    border: none;
-  }
-
-  .form-group {
-    label {
-      font-size: 0.9rem;
-    }
-  }
-
-  .card {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-
-    &:first-child {
-      border-top-right-radius: 0;
-    }
-
-    &:last-child {
-      border-top-left-radius: 0;
-    }
-  }
-}
-
-.guest-count {
-  .card {
-    border-top: none;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-}
-
-.book-card {
-  .btn-reserve {
-    background-color: #ff385c;
-    color: #fff;
-
-    &:hover,
-    &:focus {
-      background-color: #e31c5f;
-      color: #fff;
-      box-shadow: none;
-    }
   }
 }
 </style>

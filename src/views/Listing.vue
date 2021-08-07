@@ -173,7 +173,7 @@
         <div class="row mb-4">
           <div class="col-12">
             <b-form-group label-for="photos" label="Upload your place photos">
-              <b-form-file v-model="photos" id="photos" multiple></b-form-file>
+              <b-form-file v-model="photos" placeholder="" id="photos" multiple></b-form-file>
             </b-form-group>
           </div>
         </div>
