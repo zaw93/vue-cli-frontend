@@ -1,15 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+
+import authModule from './auth/index.js'
+import placesModule from './places/index.js'
 
 Vue.use(Vuex)
 
+axios.defaults.baseURL = 'http://localhost:8000/api'
+
 export default new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
+  state: {},
+  mutations: {},
+  actions: {},
+  getters: {},
   modules: {
+    auth: authModule,
+    places: placesModule
   }
 })

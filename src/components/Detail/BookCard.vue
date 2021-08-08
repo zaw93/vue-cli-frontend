@@ -20,6 +20,7 @@
             <b-form-datepicker
               id="check-in"
               v-model="checkin"
+              :min="min"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
               locale="en"
               placeholder="Pick a date"
@@ -31,6 +32,7 @@
             <b-form-datepicker
               id="check-out"
               v-model="checkout"
+              :min="min"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
               locale="en"
               placeholder="Pick a date"
@@ -43,7 +45,7 @@
         <b-card>
           <div class="d-flex">
             <label for="guest-count" class="me-5">GUESTS</label>
-            <b-form-spinbutton id="guest-count" v-model="guest" min="1" max="5" inline></b-form-spinbutton>
+            <b-form-spinbutton id="guest-count" v-model="guest" min="1" :max="guestCount" inline></b-form-spinbutton>
           </div>
         </b-card>
       </div>
@@ -71,6 +73,25 @@
     </b-card>
   </div>
 </template>
+
+<script>
+export default {
+  props: ['guestCount'],
+  data() {
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    // 15th two months prior
+    const minDate = new Date(today)
+
+    return {
+      checkin: '',
+      checkout: '',
+      guest: 1,
+      min: minDate
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 .book-card {

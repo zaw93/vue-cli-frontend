@@ -6,7 +6,11 @@
     </div>
     <div class="container">
       <div class="row mb-4">
-        <div class="col-lg-3 col-md-6 col-sm-12">
+        <div v-for="place in featuredPlaces" :key="place.id" class="col-lg-3 col-md-6 col-sm-12">
+          <PlaceCard :place="place" />
+        </div>
+
+        <!-- <div class="col-lg-3 col-md-6 col-sm-12">
           <PlaceCard />
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12">
@@ -14,13 +18,10 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12">
           <PlaceCard />
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12">
-          <PlaceCard />
-        </div>
+        </div> -->
       </div>
 
-      <div class="row mb-4">
+      <!-- <div class="row mb-4">
         <div class="col-lg-3 col-md-6 col-sm-12">
           <PlaceCard />
         </div>
@@ -33,7 +34,7 @@
         <div class="col-lg-3 col-md-6 col-sm-12">
           <PlaceCard />
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -42,6 +43,22 @@
 import PlaceCard from '../UI/PlaceCard.vue'
 export default {
   name: 'FeatureSection',
-  components: { PlaceCard }
+  components: { PlaceCard },
+  computed: {
+    featuredPlaces() {
+      return this.$store.getters['places/featuredPlaces']
+    }
+  },
+  created() {
+    this.$store
+      .dispatch('places/getFeaturedPlaces')
+      .then(() => console.log('success'))
+      .catch(err => {
+        if (err.response) {
+          const { message } = err.response.data
+          console.log(message)
+        }
+      })
+  }
 }
 </script>

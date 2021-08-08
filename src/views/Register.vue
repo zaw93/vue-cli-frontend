@@ -4,7 +4,7 @@
     <div id="login" class="row">
       <div class="col-md-6 offset-md-3">
         <div class="card mt-0 m-5 p-5 shadow-sm">
-          <form>
+          <form @submit.prevent="signup">
             <div class="mb-3">
               <label for="name" class="form-label">Your Name</label>
               <input type="text" v-model="name" class="form-control" id="name" />
@@ -44,12 +44,12 @@
               <input type="password" v-model="password_confirmation" class="form-control" id="password_confirmation" />
             </div>
 
-            <button class="btn btn-submit w-100">Register</button>
+            <button type="submit" class="btn btn-submit w-100">Register</button>
           </form>
           <div class="border-top mt-4 pt-4">
             <h6 class="fw-light text-center">
               Already have an account?
-              <a href="#" class="login ms-2">Login here</a>
+              <router-link to="/login" class="login ms-2">Login here</router-link>
             </h6>
           </div>
         </div>
@@ -69,6 +69,26 @@ export default {
       email: '',
       password: '',
       password_confirmation: ''
+    }
+  },
+  methods: {
+    signup() {
+      this.$store
+        .dispatch('signup', {
+          name: this.name,
+          phone: this.phone,
+          birthdate: this.birthdate,
+          email: this.email,
+          password: this.password,
+          password_confirmation: this.password_confirmation
+        })
+        .then(() => this.$router.push({ name: 'Home' }))
+        .catch(err => {
+          if (err.response) {
+            const { message } = err.response.data
+            console.log(message)
+          }
+        })
     }
   }
 }

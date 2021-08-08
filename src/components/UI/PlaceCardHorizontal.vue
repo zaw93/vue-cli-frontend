@@ -1,26 +1,26 @@
 <template>
   <div class="property-box d-flex">
     <div class="property-thumbnail">
-      <a href="">
-        <img src="@/assets/img/bg-property.jpg" alt="property-box" class="img-fluid" />
-      </a>
+      <router-link :to="`/places/${place.id}`">
+        <img :src="place.photos[0]" alt="property-box" class="img-fluid" />
+      </router-link>
     </div>
 
     <div class="detail fw-light ps-3 d-flex flex-column justify-content-between">
       <div class="detail-info">
         <a href="" class="title">
-          <div class="mb-1 fw-normal">Real Luxury Villa</div>
+          <div class="mb-1 fw-normal">{{ place.title }}</div>
         </a>
-        <div class="location mb-2">123 Kathal St. Tampa City</div>
+        <div class="location mb-2">{{ place.address }}</div>
         <div class="divider"></div>
         <div class="fw-light pt-2">
-          <span class="me-1">6 guests</span>
+          <span class="me-1">{{ place.guest_count }} guests</span>
           <span class="me-1">.</span>
-          <span class="me-1">4 bedrooms</span>
+          <span class="me-1">{{ place.bedroom }} bedrooms</span>
           <span class="me-1">.</span>
-          <span class="me-1">4 beds</span>
+          <span class="me-1">{{ place.bed }} beds</span>
           <span class="me-1">.</span>
-          <span class="me-1">2 baths</span>
+          <span class="me-1">{{ place.bath }} baths</span>
         </div>
       </div>
 
@@ -36,13 +36,20 @@
         </div>
 
         <div class="price">
-          <span class="fw-bold">$120 </span>
+          <span class="fw-bold">{{ place.price.toLocaleString() }}Ks</span>
           <span>/ night</span>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'PlaceCardHorizontal',
+  props: ['place']
+}
+</script>
 
 <style lang="scss">
 .property-box {

@@ -3,7 +3,10 @@
     <div class="container mt-5">
       <div class="row">
         <div class="col-md-6 cold-sm-12">
-          <div class="py-3 border-bottom">
+          <div v-for="place in places" :key="place.id" class="py-3 border-bottom">
+            <PlaceCardHorizontal :place="place" />
+          </div>
+          <!-- <div class="py-3 border-bottom">
             <PlaceCardHorizontal />
           </div>
           <div class="py-3 border-bottom">
@@ -14,10 +17,7 @@
           </div>
           <div class="py-3 border-bottom">
             <PlaceCardHorizontal />
-          </div>
-          <div class="py-3 border-bottom">
-            <PlaceCardHorizontal />
-          </div>
+          </div> -->
 
           <div>
             <pagination :data="placesData"></pagination>
@@ -44,6 +44,22 @@ export default {
     return {
       placesData: {}
     }
+  },
+  computed: {
+    places() {
+      return this.$store.getters['places/places']
+    }
+  },
+  created() {
+    this.$store
+      .dispatch('places/getAllPlaces')
+      .then(() => console.log('success'))
+      .catch(err => {
+        if (err.response) {
+          const { message } = err.response.data
+          console.log(message)
+        }
+      })
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <div class="container">
     <h4 class="text-center mt-5">Publish your property</h4>
     <b-card class="m-5 p-3">
-      <b-form @submit.prevent="onSubmit">
+      <b-form @submit.prevent="publish">
         <div class="row mb-4">
           <div class="col-md-4 col-sm-12">
             <div class="title">
@@ -179,7 +179,7 @@
         </div>
 
         <div class="mt-5 mb-3 d-flex justify-content-center">
-          <button class="btn btn-submit w-25 btn-lg">Publish</button>
+          <button type="submit" class="btn btn-submit w-25 btn-lg">Publish</button>
         </div>
       </b-form>
     </b-card>
@@ -248,12 +248,37 @@ export default {
       ],
       description: '',
       amenities: [],
-      photos: []
+      photos: null
     }
   },
   methods: {
-    onSubmit(event) {
-      console.log('form submitted')
+    publish() {
+      this.$store
+        .dispatch('places/publish', {
+          title: this.title,
+          price: this.price,
+          city: this.city,
+          state: this.state,
+          country: this.country,
+          address: this.address,
+          availability: this.availability,
+          user_id: this.$store.getters.user.id,
+          type_id: this.type,
+          guest_count: this.guest,
+          bedroom: this.bedroom,
+          bed: this.bed,
+          bath: this.bath,
+          description: this.description,
+          amenities: this.amenities,
+          photos: this.photos
+        })
+        .then(() => this.$router.push({ name: 'Home' }))
+        .catch(err => {
+          if (err.response) {
+            const { message } = err.response.data
+            console.log(message)
+          }
+        })
     }
   }
 }

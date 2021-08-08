@@ -21,15 +21,16 @@
 
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ms-auto">
-            <b-nav-item to="/login" class="me-3">Login</b-nav-item>
-            <b-nav-item to="/register" class="me-3">Register</b-nav-item>
-            <b-nav-item-dropdown right class="me-3">
+            <b-nav-item to="/login" v-if="!isLoggedIn" class="me-3">Login</b-nav-item>
+            <b-nav-item to="/register" v-if="!isLoggedIn" class="me-3">Register</b-nav-item>
+            <b-nav-item-dropdown v-if="isLoggedIn" right class="me-3">
               <!-- Using 'button-content' slot -->
               <template #button-content>
-                John Doe
+                {{ username }}
               </template>
               <b-dropdown-item href="#">Profile</b-dropdown-item>
-              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+              <b-dropdown-item to="/dashboard/listing">Host your place</b-dropdown-item>
+              <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -39,7 +40,29 @@
 </template>
 
 <script>
-export default {}
+export default {
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isAuthenticated
+    },
+    username() {
+      return this.$store.getters.user.name
+    }
+  },
+  methods: {
+    logout() {
+      this.$store
+        .dispatch('logout')
+        .then(() => this.$router.replace({ name: 'Home' }))
+        .catch(err => {
+          if (err.response) {
+            const { message } = err.response.data
+            console.log(message)
+          }
+        })
+    }
+  }
+}
 </script>
 
 <style lang="scss">

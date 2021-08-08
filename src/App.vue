@@ -11,7 +11,10 @@ import Header from './components/Header/Header.vue'
 import Footer from './components/Footer/Footer.vue'
 
 export default {
-  components: { Header, Footer }
+  components: { Header, Footer },
+  created() {
+    this.$store.dispatch('tryLogin')
+  }
 }
 </script>
 

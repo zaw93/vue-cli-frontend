@@ -7,6 +7,8 @@ import Listing from '../views/Listing.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 
+import store from '../store/index.js'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -16,9 +18,10 @@ const routes = [
     component: Home
   },
   {
-    path: '/rooms',
+    path: '/places/:id',
     name: 'RoomDetail',
-    component: RoomDetail
+    component: RoomDetail,
+    props: true
   },
   {
     path: '/places',
@@ -28,7 +31,8 @@ const routes = [
   {
     path: '/dashboard/listing',
     name: 'Listing',
-    component: Listing
+    component: Listing,
+    meta: { requireAuth: true }
   },
   {
     path: '/login',
@@ -46,6 +50,14 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach(function(to, from, next) {
+  if (to.meta.requireAuth && !store.getters.isAuthenticated) {
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router

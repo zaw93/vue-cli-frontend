@@ -4,14 +4,14 @@
     <div id="login" class="row">
       <div class="col-md-6 offset-md-3">
         <div class="card mt-0 m-5 p-5 shadow-sm">
-          <form>
+          <form @submit.prevent="login">
             <div class="mb-3">
               <label for="email" class="form-label">Email address</label>
-              <input type="email" v-model="email" class="form-control" id="email" />
+              <input type="email" v-model.trim="email" class="form-control" id="email" />
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input type="password" v-model="password" class="form-control" id="password" />
+              <input type="password" v-model.trim="password" class="form-control" id="password" />
             </div>
             <div class="mb-3 form-check d-flex align-items-center justify-content-between">
               <div>
@@ -22,12 +22,12 @@
                 <a href="#" class="forgot">Forgot Password</a>
               </div>
             </div>
-            <button class="btn btn-submit w-100">Login</button>
+            <button type="submit" class="btn btn-submit w-100">Login</button>
           </form>
           <div class="border-top mt-4 pt-4">
             <h6 class="fw-light text-center">
               Don't have an account?
-              <a href="#" class="register ms-2">Register here</a>
+              <router-link to="/register" class="register ms-2">Register here</router-link>
             </h6>
           </div>
         </div>
@@ -44,6 +44,22 @@ export default {
       email: '',
       password: '',
       remember: null
+    }
+  },
+  methods: {
+    login() {
+      this.$store
+        .dispatch('login', {
+          email: this.email,
+          password: this.password
+        })
+        .then(() => this.$router.push({ name: 'Home' }))
+        .catch(err => {
+          if (err.response) {
+            const { message } = err.response.data
+            console.log(message)
+          }
+        })
     }
   }
 }

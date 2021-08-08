@@ -1,9 +1,9 @@
 <template>
   <div class="property-box">
     <div class="property-thumbnail">
-      <a href="">
-        <img src="@/assets/img/bg-property.jpg" alt="property-box" class="img-fluid" />
-      </a>
+      <router-link :to="`/places/${place.id}`">
+        <img :src="place.photos[0]" alt="property-box" class="img-fluid" />
+      </router-link>
     </div>
     <div class="rating my-2 d-flex align-items-center fw-light">
       <svg height="14" width="14" fill="#e15a5f" viewBox="0 0 1000 1000">
@@ -16,19 +16,26 @@
     </div>
     <div class="detail fw-light">
       <a href="" class="title">
-        <div class="mb-1 fw-normal">Real Luxury Villa</div>
+        <div class="mb-1 fw-normal">{{ place.title }}</div>
       </a>
-      <div class="location mb-1">123 Kathal St. Tampa City</div>
+      <div class="location mb-1">{{ place.address }}</div>
       <div class="description mb-1">
-        Garden apartment with one bedroom next to Minster
+        {{ place.description.substring(0, 30) + '...' }}
       </div>
       <div class="price">
-        <span class="fw-bold">$120 </span>
-        <span>/ night</span>
+        <span class="fw-bold">{{ place.price.toLocaleString() }} Ks</span>
+        <span> / night</span>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'PlaceCard',
+  props: ['place']
+}
+</script>
 
 <style lang="scss">
 .property-box {
