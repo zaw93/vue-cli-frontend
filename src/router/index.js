@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import RoomDetail from '../views/RoomDetail.vue'
-import Place from '../views/Place.vue'
+import PlaceDetails from '../views/PlaceDetails.vue'
+import Places from '../views/Places.vue'
 import Listing from '../views/Listing.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
@@ -19,14 +19,14 @@ const routes = [
   },
   {
     path: '/places/:id',
-    name: 'RoomDetail',
-    component: RoomDetail,
+    name: 'PlaceDetails',
+    component: PlaceDetails,
     props: true
   },
   {
     path: '/places',
-    name: 'Place',
-    component: Place
+    name: 'Places',
+    component: Places
   },
   {
     path: '/dashboard/listing',
@@ -49,7 +49,14 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return { ...savedPosition, behavior: 'smooth' }
+    } else {
+      return { x: 0, y: 0, behavior: 'smooth' }
+    }
+  }
 })
 
 router.beforeEach(function(to, from, next) {

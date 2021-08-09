@@ -6,35 +6,10 @@
     </div>
     <div class="container">
       <div class="row mb-4">
-        <div v-for="place in featuredPlaces" :key="place.id" class="col-lg-3 col-md-6 col-sm-12">
+        <div v-for="place in featuredPlaces" :key="place.id" class="col-lg-3 col-md-6 col-sm-12 py-3">
           <PlaceCard :place="place" />
         </div>
-
-        <!-- <div class="col-lg-3 col-md-6 col-sm-12">
-          <PlaceCard />
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12">
-          <PlaceCard />
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12">
-          <PlaceCard />
-        </div> -->
       </div>
-
-      <!-- <div class="row mb-4">
-        <div class="col-lg-3 col-md-6 col-sm-12">
-          <PlaceCard />
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12">
-          <PlaceCard />
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12">
-          <PlaceCard />
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12">
-          <PlaceCard />
-        </div>
-      </div> -->
     </div>
   </div>
 </template>

@@ -4,7 +4,7 @@ export default {
   },
 
   setPlaces(state, payload) {
-    state.places = payload.data
+    state.places = payload
   },
 
   setFeaturedPlaces(state, payload) {

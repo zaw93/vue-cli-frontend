@@ -4,6 +4,7 @@ import axios from 'axios'
 
 import authModule from './auth/index.js'
 import placesModule from './places/index.js'
+import bookingsModule from './bookings/index.js'
 
 Vue.use(Vuex)
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
   getters: {},
   modules: {
     auth: authModule,
-    places: placesModule
+    places: placesModule,
+    bookings: bookingsModule
   }
 })

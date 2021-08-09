@@ -2,7 +2,7 @@
   <div class="property-box">
     <div class="property-thumbnail">
       <router-link :to="`/places/${place.id}`">
-        <img :src="place.photos[0]" alt="property-box" class="img-fluid" />
+        <img :src="place.photos[0]" alt="property-box" />
       </router-link>
     </div>
     <div class="rating my-2 d-flex align-items-center fw-light">
@@ -15,9 +15,9 @@
       <span class="ms-1">(28)</span>
     </div>
     <div class="detail fw-light">
-      <a href="" class="title">
+      <router-link :to="`/places/${place.id}`" class="title">
         <div class="mb-1 fw-normal">{{ place.title }}</div>
-      </a>
+      </router-link>
       <div class="location mb-1">{{ place.address }}</div>
       <div class="description mb-1">
         {{ place.description.substring(0, 30) + '...' }}
@@ -39,12 +39,6 @@ export default {
 
 <style lang="scss">
 .property-box {
-  .property-thumbnail {
-    img {
-      border-radius: 5px;
-    }
-  }
-
   .detail {
     .title {
       text-decoration: none;

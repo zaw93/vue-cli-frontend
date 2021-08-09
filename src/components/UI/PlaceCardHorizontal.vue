@@ -2,15 +2,15 @@
   <div class="property-box d-flex">
     <div class="property-thumbnail">
       <router-link :to="`/places/${place.id}`">
-        <img :src="place.photos[0]" alt="property-box" class="img-fluid" />
+        <img :src="place.photos[0]" alt="property-box" />
       </router-link>
     </div>
 
     <div class="detail fw-light ps-3 d-flex flex-column justify-content-between">
       <div class="detail-info">
-        <a href="" class="title">
+        <router-link :to="`/places/${place.id}`" class="title">
           <div class="mb-1 fw-normal">{{ place.title }}</div>
-        </a>
+        </router-link>
         <div class="location mb-2">{{ place.address }}</div>
         <div class="divider"></div>
         <div class="fw-light pt-2">
@@ -36,8 +36,8 @@
         </div>
 
         <div class="price">
-          <span class="fw-bold">{{ place.price.toLocaleString() }}Ks</span>
-          <span>/ night</span>
+          <span class="fw-bold">{{ place.price.toLocaleString() }} Ks</span>
+          <span> / night</span>
         </div>
       </div>
     </div>
@@ -55,9 +55,15 @@ export default {
 .property-box {
   .property-thumbnail {
     flex: 1;
+    width: 300px;
+    height: 200px;
 
     img {
       border-radius: 5px;
+      min-width: 100%;
+      max-width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 

@@ -1,8 +1,10 @@
 <template>
   <div class="book-card col-md-5 align-self-center px-5">
-    <b-card class="shadow-sm">
+    <b-card class="pt-2 pb-3 px-2 shadow">
       <div class="d-flex align-items-center justify-content-between mb-3">
-        <div><span class="fs-5">$45</span> <span class="fw-light">/ night</span></div>
+        <div>
+          <span class="fs-5">{{ priceStr }} Ks</span> <span class="fw-light">/ night</span>
+        </div>
         <div class="rating my-2 d-flex align-items-center fw-light">
           <svg width="15" height="15" fill="#e15a5f" viewBox="0 0 1000 1000">
             <path
@@ -19,8 +21,9 @@
           <b-form-group label="CHECK-IN" label-for="check-in" label-align="center">
             <b-form-datepicker
               id="check-in"
+              @input="checkDateValidate"
               v-model="checkin"
-              :min="min"
+              :min="minDate1"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
               locale="en"
               placeholder="Pick a date"
@@ -32,7 +35,7 @@
             <b-form-datepicker
               id="check-out"
               v-model="checkout"
-              :min="min"
+              :min="minDate2"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
               locale="en"
               placeholder="Pick a date"
@@ -50,24 +53,24 @@
         </b-card>
       </div>
 
-      <button class="btn btn-reserve w-100 btn-lg">Reserve</button>
+      <button @click="reserveBooking" class="btn btn-reserve w-100 btn-lg">Reserve</button>
 
-      <div class="mt-3">
+      <div v-if="showPrice" class="mt-3">
         <div class="d-flex justify-content-between mb-2 fw-light">
-          <div>$45 x 5 nights</div>
-          <div>$225</div>
+          <div>{{ priceStr }} Ks x {{ duration }} {{ duration > 1 ? 'nights' : 'night' }}</div>
+          <div>{{ subtotal.toLocaleString() }} Ks</div>
         </div>
         <div class="d-flex justify-content-between mb-2 fw-light">
           <div>Cleaning fee</div>
-          <div>$20</div>
+          <div>{{ cleaningFee.toLocaleString() }} Ks</div>
         </div>
         <div class="d-flex justify-content-between mb-3 fw-light">
           <div>Service fee</div>
-          <div>$30</div>
+          <div>{{ serviceFee.toLocaleString() }} Ks</div>
         </div>
-        <div class="d-flex justify-content-between pt-3 mb-3 fw-bold border-top">
+        <div class="d-flex justify-content-between pt-3 fw-bold border-top">
           <div>Total</div>
-          <div>$275</div>
+          <div>{{ total.toLocaleString() }} Ks</div>
         </div>
       </div>
     </b-card>
@@ -76,18 +79,77 @@
 
 <script>
 export default {
-  props: ['guestCount'],
+  props: ['guestCount', 'price', 'placeId'],
   data() {
-    const now = new Date()
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-    // 15th two months prior
-    const minDate = new Date(today)
-
     return {
+      cleaningFee: 5000,
+      serviceFee: 10000,
       checkin: '',
       checkout: '',
-      guest: 1,
-      min: minDate
+      guest: 1
+    }
+  },
+  methods: {
+    checkDateValidate() {
+      if (this.checkin && this.checkout && this.duration <= 0) {
+        this.checkout = ''
+      }
+    },
+
+    reserveBooking() {
+      this.$store
+        .dispatch('bookings/book', {
+          checkin: this.checkin,
+          checkout: this.checkout,
+          guest_count: this.guest,
+          total_price: this.total,
+          user_id: this.$store.getters.user.id,
+          place_id: this.placeId
+        })
+        .then(() => console.log('success'))
+        .catch(err => {
+          if (err.response) {
+            const { message } = err.response.data
+            console.log(message)
+          }
+        })
+    }
+  },
+  computed: {
+    priceStr() {
+      if (this.price) return this.price.toLocaleString()
+    },
+    minDate1() {
+      const now = new Date()
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+      return new Date(today)
+    },
+    minDate2() {
+      if (this.checkin) {
+        const checkinDate = new Date(this.checkin)
+        return new Date(checkinDate.getTime() + 24 * 3600 * 1000)
+      }
+      return new Date(this.minDate1.getTime() + 24 * 3600 * 1000)
+    },
+    duration() {
+      if (this.checkin && this.checkout) {
+        let date1, date2, diffInTime
+        date1 = new Date(this.checkin)
+        date2 = new Date(this.checkout)
+        diffInTime = date2.getTime() - date1.getTime()
+        return diffInTime / (24 * 3600 * 1000)
+      } else {
+        return 1
+      }
+    },
+    subtotal() {
+      return this.duration * this.price
+    },
+    total() {
+      return this.subtotal + this.serviceFee + this.cleaningFee
+    },
+    showPrice() {
+      if (this.checkin && this.checkout) return true
     }
   }
 }

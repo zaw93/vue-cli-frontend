@@ -6,9 +6,7 @@ export default {
   namespaced: true,
   state() {
     return {
-      places: null,
-      featuredPlaces: [],
-      place: null
+      booking: null
     }
   },
   mutations,
