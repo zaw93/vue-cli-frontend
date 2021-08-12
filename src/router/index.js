@@ -3,9 +3,18 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import PlaceDetails from '../views/PlaceDetails.vue'
 import Places from '../views/Places.vue'
-import Listing from '../views/Listing.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import Dashboard from '../views/Dashboard.vue'
+import Hosting from '../views/Hosting.vue'
+import UserListings from '../views/UserListings.vue'
+import UserReservations from '../views/UserReservations.vue'
+import UserReceipt from '../views/UserReceipt.vue'
+import UserTrips from '../views/UserTrips.vue'
+import Profile from '../views/Profile.vue'
+import Account from '../views/Account.vue'
+import Test from '../views/Test.vue'
+import NotFound from '../components/UI/NotFound.vue'
 
 import store from '../store/index.js'
 
@@ -29,10 +38,47 @@ const routes = [
     component: Places
   },
   {
-    path: '/dashboard/listing',
-    name: 'Listing',
-    component: Listing,
-    meta: { requireAuth: true }
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    meta: { requireAuth: true },
+    children: [
+      {
+        path: 'my-profile',
+        name: 'Profile',
+        component: Profile
+      },
+      {
+        path: 'my-account',
+        name: 'Account',
+        component: Account
+      },
+      {
+        path: 'my-trips',
+        name: 'UserTrips',
+        component: UserTrips
+      },
+      {
+        path: 'reservations',
+        name: 'UserReservations',
+        component: UserReservations
+      },
+      {
+        path: 'my-receipt',
+        name: 'UserReceipt',
+        component: UserReceipt
+      },
+      {
+        path: 'my-listings',
+        name: 'UserListings',
+        component: UserListings
+      },
+      {
+        path: 'create-new-listing',
+        name: 'Hosting',
+        component: Hosting
+      }
+    ]
   },
   {
     path: '/login',
@@ -43,7 +89,13 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
-  }
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test
+  },
+  { path: '/:notFound(.*)', component: NotFound }
 ]
 
 const router = new VueRouter({

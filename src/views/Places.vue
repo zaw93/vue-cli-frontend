@@ -22,7 +22,7 @@
 
         <!-- Advanced Search  -->
         <div class="col-md-6 col-sm-12">
-          <AdvanceSearch />
+          <AdvanceSearch @filterSearch="fetchSearchResults" />
         </div>
       </div>
     </div>
@@ -49,6 +49,22 @@ export default {
         path: '/places',
         query: { page: pageNum }
       }
+    },
+
+    fetchSearchResults(query) {
+      // let curPage = this.$route.query.page ? this.$route.query.page : 1
+      // this.$store
+      //   .dispatch('places/getSearchPlaces', query)
+      //   .then(() => {
+      //     this.places = this.$store.getters['places/places']
+      //     this.lastPage = this.$store.getters['places/places'].meta.last_page
+      //   })
+      //   .catch(err => {
+      //     if (err.response) {
+      //       const { message } = err.response.data
+      //       console.log(message)
+      //     }
+      //   })
     }
   },
 

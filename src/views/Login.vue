@@ -53,11 +53,11 @@ export default {
           email: this.email,
           password: this.password
         })
-        .then(() => this.$router.push({ name: 'Home' }))
+        .then(() => this.$router.push(this.$route.query.redirect || '/'))
         .catch(err => {
           if (err.response) {
             const { message } = err.response.data
-            console.log(message)
+            this.$toast.error(message)
           }
         })
     }

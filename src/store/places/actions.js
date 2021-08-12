@@ -1,12 +1,6 @@
 import axios from 'axios'
 
 export default {
-  publish({ commit }, payload) {
-    return axios.post('/places', payload).then(({ data }) => {
-      commit('setPlaceDetail', data)
-    })
-  },
-
   getPlaceDetail({ commit }, id) {
     return axios.get(`/places/${id}`).then(({ data }) => {
       commit('setPlaceDetail', data)
@@ -22,6 +16,12 @@ export default {
   getFeaturedPlaces({ commit }) {
     return axios.get('/feature-places').then(({ data }) => {
       commit('setFeaturedPlaces', data)
+    })
+  },
+
+  getSearchPlaces({ commit }, query) {
+    return axios.post('/search', query).then(({ data }) => {
+      commit('setPlaces', data)
     })
   }
 }

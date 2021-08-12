@@ -17,5 +17,15 @@ export default {
 
     localStorage.removeItem('user')
     localStorage.removeItem('token')
+  },
+
+  updateUserData(state, payload) {
+    state.user = payload.data
+
+    localStorage.setItem('user', JSON.stringify(payload.data))
+  },
+
+  setAutoLogout(state) {
+    state.didAutoLogout = !state.didAutoLogout
   }
 }

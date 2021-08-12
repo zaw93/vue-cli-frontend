@@ -12,8 +12,20 @@ import Footer from './components/Footer/Footer.vue'
 
 export default {
   components: { Header, Footer },
+  computed: {
+    didAutoLogout() {
+      return this.$store.getters.didAutoLogout
+    }
+  },
   created() {
     this.$store.dispatch('tryLogin')
+  },
+  watch: {
+    didAutoLogout(curValue, oldValue) {
+      if (curValue !== oldValue) {
+        this.$router.replace('/')
+      }
+    }
   }
 }
 </script>

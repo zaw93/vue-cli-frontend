@@ -19,16 +19,16 @@
         <div class="rooms border-bottom py-3">
           <label class="rooms-label">Rooms and beds</label>
           <b-form-group label-for="bedroom" label="Bedrooms" class="pb-3">
-            <b-form-spinbutton id="bedroom" v-model="bedroom" min="1" max="6" inline></b-form-spinbutton>
+            <b-form-spinbutton id="bedroom" v-model="bedroom" min="1" max="5" inline></b-form-spinbutton>
           </b-form-group>
           <b-form-group label-for="bed" label="Beds" class="pb-3">
-            <b-form-spinbutton id="bed" v-model="bed" min="1" max="4" inline></b-form-spinbutton>
+            <b-form-spinbutton id="bed" v-model="bed" min="1" max="5" inline></b-form-spinbutton>
           </b-form-group>
           <b-form-group label-for="bath" label="Bathrooms" class="pb-3">
-            <b-form-spinbutton id="bath" v-model="bath" min="1" max="3" inline></b-form-spinbutton>
+            <b-form-spinbutton id="bath" v-model="bath" min="1" max="5" inline></b-form-spinbutton>
           </b-form-group>
           <b-form-group label-for="guest" label="Guests" class="pb-3">
-            <b-form-spinbutton id="guest" v-model="guest" min="1" max="16" inline></b-form-spinbutton>
+            <b-form-spinbutton id="guest" v-model="guest" min="1" max="10" inline></b-form-spinbutton>
           </b-form-group>
         </div>
 
@@ -38,7 +38,7 @@
           </b-form-group>
         </div>
 
-        <b-button variant="dark" class="w-100 my-3">Show results</b-button>
+        <b-button @click="filterSearch" variant="dark" class="w-100 my-3">Show results</b-button>
       </div>
     </b-card>
   </div>
@@ -57,10 +57,12 @@ export default {
       city: null,
       cityOptions: [
         { value: null, text: 'Choose a city' },
-        { value: 1, text: 'Yangon' },
-        { value: 2, text: 'Mandalay' },
-        { value: 3, text: 'Bago' },
-        { value: 4, text: 'Taunggyi' }
+        { value: 'Yangon', text: 'Yangon' },
+        { value: 'Bago', text: 'Bago' },
+        { value: 'Mandalay', text: 'Mandalay' },
+        { value: 'Monywa', text: 'Monywa' },
+        { value: 'Taunggyi', text: 'Taunggyi' },
+        { value: 'Naypyitaw', text: 'Naypyitaw' }
       ],
       amenities: [],
       amenityOptions: [
@@ -80,6 +82,23 @@ export default {
       bed: 1,
       bath: 1,
       guest: 1
+    }
+  },
+  methods: {
+    filterSearch() {
+      let query = {
+        types: this.types,
+        city: this.city,
+        bedroom: this.bedroom,
+        bed: this.bed,
+        bath: this.bath,
+        guest: this.guest,
+        amenities: this.amenities
+      }
+
+      this.$router.push({ path: '/places', query: query })
+
+      this.$emit('filterSearch', query)
     }
   }
 }

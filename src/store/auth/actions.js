@@ -29,5 +29,26 @@ export default {
         token: token
       })
     }
+  },
+
+  autoLogout(context) {
+    context.dispatch('logout')
+    context.commit('setAutoLogout')
+  },
+
+  updateProfile({ commit }, credentials) {
+    return axios.put('/me', credentials).then(({ data }) => {
+      commit('updateUserData', data)
+    })
+  },
+
+  updateProfilePhoto({ commit }, data) {
+    return axios.post('/upload-profile-photo', data).then(({data}) => {
+      commit('updateUserData', data)
+    })
+  },
+
+  updatePassword({ commit }, credentials) {
+    return axios.put('/update-password', credentials)
   }
 }

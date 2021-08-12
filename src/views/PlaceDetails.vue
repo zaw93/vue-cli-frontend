@@ -35,8 +35,8 @@
                 <span class="me-2">{{ place.bath }} baths</span>
               </div>
             </div>
-            <div>
-              <img src="https://ui-avatars.com/api/?name=John+Doe" class="rounded-circle" alt="" />
+            <div class="avatar">
+              <img :src="avatarImg" class="rounded-circle" alt="" />
             </div>
           </div>
 
@@ -178,7 +178,13 @@
           </div>
         </div>
 
-        <BookCard :place-id="place.id" :guest-count="place.guest_count" :price="place.price" />
+        <BookCard
+          :place-id="placeId"
+          :guest-count="place.guest_count"
+          :price="place.price"
+          :user-id="userId"
+          :availability="availability"
+        />
       </div>
 
       <div class="reviews border-top">
@@ -214,6 +220,7 @@
 <script>
 import BookCard from '../components/Detail/BookCard.vue'
 import ReviewCard from '../components/Detail/ReviewCard.vue'
+import avatar from '@/assets/img/avatar.png'
 
 export default {
   name: 'PlaceDetails',
@@ -225,6 +232,21 @@ export default {
     }
   },
   computed: {
+    placeId() {
+      if (this.place) return this.place.id
+    },
+    userId() {
+      if (this.place.user) return this.place.user.id
+    },
+    availability() {
+      if (this.place) return this.place.availability
+    },
+    avatarImg() {
+      if (this.place.user && this.place.user.photo) {
+        return this.place.user.photo
+      }
+      return avatar
+    },
     roomTitleByHost() {
       if (this.place.type === 'entire_place') {
         return `Entire rental place hosted by ${this.place.user.name}`
@@ -304,6 +326,16 @@ export default {
   .gallery-img-1 {
     grid-column: 1 / 3;
     grid-row: 1 / -1;
+  }
+}
+
+.room-info {
+  .avatar {
+    img {
+      height: 80px;
+      width: 80px;
+      border-radius: 50%;
+    }
   }
 }
 

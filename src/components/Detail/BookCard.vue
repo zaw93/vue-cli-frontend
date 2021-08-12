@@ -1,6 +1,6 @@
 <template>
   <div class="book-card col-md-5 align-self-center px-5">
-    <b-card class="pt-2 pb-3 px-2 shadow">
+    <b-card class="pt-2 pb-3 px-2 shadow rounded-3">
       <div class="d-flex align-items-center justify-content-between mb-3">
         <div>
           <span class="fs-5">{{ priceStr }} Ks</span> <span class="fw-light">/ night</span>
@@ -26,6 +26,8 @@
               :min="minDate1"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
               locale="en"
+              selected-variant="dark"
+              nav-button-variant="dark"
               placeholder="Pick a date"
             ></b-form-datepicker>
           </b-form-group>
@@ -38,6 +40,8 @@
               :min="minDate2"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
               locale="en"
+              selected-variant="dark"
+              nav-button-variant="dark"
               placeholder="Pick a date"
             ></b-form-datepicker>
           </b-form-group>
@@ -53,7 +57,13 @@
         </b-card>
       </div>
 
-      <button @click="reserveBooking" class="btn btn-reserve w-100 btn-lg">Reserve</button>
+      <button @click="reserveBooking" :disabled="bookingStatus" class="btn btn-reserve w-100 btn-lg">
+        <div v-if="isBooked" class="spinner-border text-light" style="width: 1.5rem; height: 1.5rem;" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div v-else>Reserve now</div>
+      </button>
+      <p v-if="bookingStatus" class="mt-3 text-center fw-light">This place is currently booked now.</p>
 
       <div v-if="showPrice" class="mt-3">
         <div class="d-flex justify-content-between mb-2 fw-light">
@@ -79,14 +89,15 @@
 
 <script>
 export default {
-  props: ['guestCount', 'price', 'placeId'],
+  props: ['guestCount', 'price', 'placeId', 'userId', 'availability'],
   data() {
     return {
       cleaningFee: 5000,
       serviceFee: 10000,
       checkin: '',
       checkout: '',
-      guest: 1
+      guest: 1,
+      isBooked: false
     }
   },
   methods: {
@@ -97,27 +108,49 @@ export default {
     },
 
     reserveBooking() {
-      this.$store
-        .dispatch('bookings/book', {
-          checkin: this.checkin,
-          checkout: this.checkout,
-          guest_count: this.guest,
-          total_price: this.total,
-          user_id: this.$store.getters.user.id,
-          place_id: this.placeId
-        })
-        .then(() => console.log('success'))
-        .catch(err => {
-          if (err.response) {
-            const { message } = err.response.data
-            console.log(message)
-          }
-        })
+      // Check place owner and auth user is same or not
+      if (this.checkin === '' || this.checkout === '') {
+        this.$toast.error('You must choose both check-in and check-out date')
+      } else if (!this.$store.getters.isAuthenticated) {
+        this.$toast.error('You must login first', { timeout: 3000 })
+        setTimeout(() => {
+          this.$router.push({ name: 'Login', query: { redirect: `/places/${this.placeId}` } })
+        }, 3000)
+      } else if (this.userId === this.$store.getters.user.id) {
+        this.$toast.error('You cannot book your own listing')
+      } else if (this.userId !== this.$store.getters.user.id) {
+        this.isBooked = true
+        this.$store
+          .dispatch('bookings/book', {
+            checkin: this.checkin,
+            checkout: this.checkout,
+            guest_count: this.guest,
+            total_price: this.total,
+            user_id: this.$store.getters.user.id,
+            place_id: this.placeId
+          })
+          .then(() => {
+            this.$toast.success('Your reservation has been booked successfully', { timeout: 3000 })
+            this.isBooked = false
+            setTimeout(() => {
+              this.$router.push({ name: 'UserTrips' })
+            }, 3000)
+          })
+          .catch(err => {
+            if (err.response) {
+              const { message } = err.response.data
+              console.log(message)
+            }
+          })
+      }
     }
   },
   computed: {
     priceStr() {
       if (this.price) return this.price.toLocaleString()
+    },
+    bookingStatus() {
+      return this.availability === 'booked'
     },
     minDate1() {
       const now = new Date()
@@ -199,6 +232,14 @@ export default {
       background-color: #e31c5f;
       color: #fff;
       box-shadow: none;
+    }
+
+    .spinner-border {
+      border-width: 0.15em;
+    }
+
+    &[disabled] {
+      background-color: #b6284b;
     }
   }
 }

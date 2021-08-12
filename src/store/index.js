@@ -5,6 +5,7 @@ import axios from 'axios'
 import authModule from './auth/index.js'
 import placesModule from './places/index.js'
 import bookingsModule from './bookings/index.js'
+import dashboardModule from './dashboard/index.js'
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
   modules: {
     auth: authModule,
     places: placesModule,
-    bookings: bookingsModule
+    bookings: bookingsModule,
+    dashboard: dashboardModule
   }
 })

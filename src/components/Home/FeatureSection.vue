@@ -27,7 +27,7 @@ export default {
   created() {
     this.$store
       .dispatch('places/getFeaturedPlaces')
-      .then(() => console.log('success'))
+      .then(() => {})
       .catch(err => {
         if (err.response) {
           const { message } = err.response.data
