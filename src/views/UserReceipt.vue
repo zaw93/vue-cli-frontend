@@ -1,9 +1,9 @@
 <template>
   <div class="container p-5">
-    <b-card class="mt-4 p-3 rounded-3">
+    <b-card class="mt-4 p-3 rounded-3" id="printMe">
       <div class="d-flex justify-content-between">
         <h3>Customer Receipt</h3>
-        <button class="btn btn-print">Print Receipt</button>
+        <button v-print="'#printMe'" class="btn btn-print">Print Receipt</button>
       </div>
 
       <div class="mt-5">
@@ -100,12 +100,17 @@
 
 <script>
 import axios from 'axios'
+import print from 'vue-print-nb'
 
 export default {
   data() {
     return {
       receipt: {}
     }
+  },
+
+  directives: {
+    print
   },
 
   computed: {

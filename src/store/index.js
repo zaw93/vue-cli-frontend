@@ -9,7 +9,8 @@ import dashboardModule from './dashboard/index.js'
 
 Vue.use(Vuex)
 
-axios.defaults.baseURL = 'http://localhost:8000/api'
+// axios.defaults.baseURL = 'http://localhost:8000/api'
+axios.defaults.baseURL = 'https://api.zawzawmyatnyein.me/api'
 
 export default new Vuex.Store({
   state: {},

@@ -238,7 +238,8 @@ export default {
   data() {
     return {
       dropzoneOptions: {
-        url: 'http://localhost:8000/api/places',
+        // url: 'http://localhost:8000/api/places',
+        url: 'https://api.zawzawmyatnyein.me/api/places',
         paramName: 'photos',
         uploadMultiple: true,
         parallelUploads: 5,
